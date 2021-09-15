@@ -21,29 +21,16 @@ public class Main {
         System.out.println("Количество несовершеннолетних  " + count);
 
         List<String> familiesList = persons.stream()
-                .filter(p -> p.getAge() > 17)
-                .filter(p -> p.getAge() < 28)
+                .filter((p) -> p.getAge() >= 18 && p.getAge() < 27 && p.getSex() == Sex.MAN)
                 .map(Person::getFamily)
                 .collect(Collectors.toList());
         System.out.println("Фамилии призывников  " + familiesList);
 
-        List<Person> womanList = persons.stream()
-                .filter(value -> value.getSex() == Sex.WOMAN)
-                .filter(value -> value.getEducation() == Education.HIGHER)
-                .filter(value -> value.getAge() > 17)
-                .filter(value -> value.getAge() < 61)
+        List<Person> workablePersonsList = persons.stream()
+                .filter((p) -> p.getAge() >= 18)
+                .filter((p) -> (p.getSex() == Sex.WOMAN && p.getAge() < 60) || (p.getSex() == Sex.MAN && p.getAge() < 65))
                 .sorted(Comparator.comparing(Person::getFamily))
                 .collect(Collectors.toList());
-        System.out.println("Работоспособные женщины с высшим образованием  " + womanList);
-
-        List<Person> manList = persons.stream()
-                .filter(value -> value.getSex() == Sex.MAN)
-                .filter(value -> value.getEducation() == Education.HIGHER)
-                .filter(value -> value.getAge() > 17)
-                .filter(value -> value.getAge() < 66)
-                .sorted(Comparator.comparing(Person::getFamily))
-                .collect(Collectors.toList());
-        System.out.println("Работоспособные мужчины с высшим образованием  " + manList);
-
+        System.out.println("Список работоспособных людей " + workablePersonsList);
     }
 }
